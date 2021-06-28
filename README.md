@@ -1,6 +1,7 @@
 # GraphQL Server
 
 Basic GraphQL server using `express`, `experss-graphql` and `json-server`
+Uses zombie movies as data :-)
 
 ## Run locally
 
