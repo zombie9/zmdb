@@ -40,6 +40,18 @@ const RootQuery = new GraphQLObjectType({
         return axios.get(`http://localhost:3000/movies/`)
         .then(res => res.data)
       }
+    },
+    moviesByYear: {
+      type: new GraphQLList(MovieType),
+      args: {
+        year: { type: GraphQLString }
+      },
+      resolve(parentValue, args) {
+        const url = `http://localhost:3000/movies?year=${args.year}`
+        console.log(url)
+        return axios.get(url)
+        .then(res => res.data)
+      }
     }
   }
 })
