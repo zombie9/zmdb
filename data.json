@@ -1,34 +1,34 @@
 {
-  "customers": [
+  "movies": [
     {
       "id": "1",
-      "name": "John Doe",
-      "email": "john@gmail.com",
-      "age": 36
+      "title": "Night of the Living Dead",
+      "director": "George A Romero",
+      "year": 1968
     },
     {
       "id": "2",
-      "name": "Keith Wilson",
-      "email": "kieth@gmail.com",
-      "age": 50
+      "title": "Dawn of the Dead",
+      "director": "George A Romero",
+      "year": 1978
     },
     {
       "id": "3",
-      "name": "Tom Jones",
-      "email": "tom@gmail.com",
-      "age": 23
+      "title": "Day of the Dead",
+      "director": "George A Romero",
+      "year": 1985
     },
     {
       "id": "4",
-      "name": "Jen Thompson",
-      "email": "jen@gmail.com",
-      "age": 22
+      "title": "Land of the Dead",
+      "director": "George A Romero",
+      "year": 2005
     },
     {
       "id": "5",
-      "name": "Harry White",
-      "email": "harry@gmail.com",
-      "age": 34
+      "title": "Return of the Living Dead",
+      "director": "Dan O'Bannon",
+      "year": 1985
     }
   ]
 }

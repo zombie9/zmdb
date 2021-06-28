@@ -9,33 +9,35 @@ const {
 } = require('graphql')
 
 
-const CustomerType = new GraphQLObjectType({
-  name: 'customer',
+const MovieType = new GraphQLObjectType({
+  name: 'movie',
   fields: () => ({
     id: { type: GraphQLString },
-    name: { type: GraphQLString },
-    email: { type: GraphQLString },
-    age: { type: GraphQLInt },
+    title: { type: GraphQLString },
+    director: { type: GraphQLString },
+    year: { type: GraphQLInt },
   })
 })
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    customer: {
-      type: CustomerType,
+    movie: {
+      type: MovieType,
       args: {
         id: { type: GraphQLString }
       },
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/customers/${args.id}`)
+        const url = `http://localhost:3000/movies/${args.id}`
+        console.log(url)
+        return axios.get(url)
         .then(res => res.data)
       }
     },
-    customers: {
-      type: new GraphQLList(CustomerType),
+    movies: {
+      type: new GraphQLList(MovieType),
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/customers/`)
+        return axios.get(`http://localhost:3000/movies/`)
         .then(res => res.data)
       }
     }
