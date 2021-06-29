@@ -3,31 +3,46 @@
     {
       "id": "1",
       "title": "Night of the Living Dead",
-      "director": "George A Romero",
+      "director": {
+        "firstName": "George",
+        "lastName": "Romero"
+      },
       "year": 1968
     },
     {
       "id": "2",
       "title": "Dawn of the Dead",
-      "director": "George A Romero",
+      "director": {
+        "firstName": "George",
+        "lastName": "Romero"
+      },
       "year": 1978
     },
     {
       "id": "3",
       "title": "Day of the Dead",
-      "director": "George A Romero",
+      "director": {
+        "firstName": "George",
+        "lastName": "Romero"
+      },
       "year": 1985
     },
     {
       "id": "4",
       "title": "Land of the Dead",
-      "director": "George A Romero",
+      "director": {
+        "firstName": "George",
+        "lastName": "Romero"
+      },
       "year": 2005
     },
     {
       "id": "5",
       "title": "Return of the Living Dead",
-      "director": "Dan O'Bannon",
+      "director": {
+        "firstName": "Dan",
+        "lastName": "O'Bannon"
+      },
       "year": 1985
     }
   ]
