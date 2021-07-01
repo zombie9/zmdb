@@ -1,49 +1,69 @@
 {
+  "directors": [
+    {
+      "id": 1,
+      "firstName": "George",
+      "lastName": "Romero"
+    },
+    {
+      "id": 2,
+      "firstName": "Dan",
+      "lastName": "O'Bannon"
+    },
+    {
+      "firstName": "Lucio",
+      "lastName": "Fulci",
+      "id": 3
+    }
+  ],
   "movies": [
     {
-      "id": "1",
+      "id": 1,
       "title": "Night of the Living Dead",
-      "director": {
-        "firstName": "George",
-        "lastName": "Romero"
-      },
+      "directorId": 1,
       "year": 1968
     },
     {
-      "id": "2",
+      "id": 2,
       "title": "Dawn of the Dead",
-      "director": {
-        "firstName": "George",
-        "lastName": "Romero"
-      },
+      "directorId": 1,
       "year": 1978
     },
     {
-      "id": "3",
+      "id": 3,
       "title": "Day of the Dead",
-      "director": {
-        "firstName": "George",
-        "lastName": "Romero"
-      },
+      "directorId": 1,
       "year": 1985
     },
     {
-      "id": "4",
+      "id": 4,
       "title": "Land of the Dead",
-      "director": {
-        "firstName": "George",
-        "lastName": "Romero"
-      },
+      "directorId": 1,
       "year": 2005
     },
     {
-      "id": "5",
+      "id": 5,
       "title": "Return of the Living Dead",
-      "director": {
-        "firstName": "Dan",
-        "lastName": "O'Bannon"
-      },
+      "directorId": 2,
       "year": 1985
+    },
+    {
+      "title": "Diary of the Dead",
+      "directorId": 1,
+      "year": 2007,
+      "id": 6
+    },
+    {
+      "title": "Zombi 2",
+      "directorId": 3,
+      "year": 1979,
+      "id": 7
+    },
+    {
+      "title": "City of the Living Dead",
+      "directorId": 3,
+      "year": 1980,
+      "id": 8
     }
   ]
 }
