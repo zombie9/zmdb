@@ -11,11 +11,16 @@ Run `npm run start` to spin up the GraphQL server on port 4000
 Visit `http://localhost:4000/graphql` for GraphiQL interface
 
 Queries:
-- movie (by id)
-- movies (all)
-- director (by id)
-- directors (all)
+- movie (id)
+- movies 
+- moviesByYear (year)
+- director (id)
+- directors 
 
 Mutations:
 - addMovie
 - addDirector
+- editMovie
+- editDirector
+- deleteMovie
+- deleteDirector

@@ -1,4 +1,7 @@
+require('dotenv').config()
 const axios = require('axios')
+const { BASE_URL } = require('./constant')
+
 const {
   GraphQLObjectType,
   GraphQLString,
@@ -7,7 +10,6 @@ const {
   GraphQLList,
   GraphQLNonNull
 } = require('graphql')
-const { BASE_URL } = require('./constant')
 
 const DirectorType = new GraphQLObjectType({
   name: 'director',
@@ -38,7 +40,8 @@ const MovieType = new GraphQLObjectType({
         return axios.get(`${BASE_URL}/directors/${movie.directorId}`)
         .then(res => res.data)
       }
-    }
+    },
+    tmdbId: { type: GraphQLString}
   })
 })
 
@@ -52,7 +55,6 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve(parentValue, args) {
         const url = `${BASE_URL}/movies/${args.id}`
-        console.log(url)
         return axios.get(url)
         .then(res => res.data)
       }
@@ -71,7 +73,6 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve(parentValue, args) {
         const url = `${BASE_URL}/movies?year=${args.year}`
-        console.log(url)
         return axios.get(url)
         .then(res => res.data)
       }
@@ -83,7 +84,6 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve(parentValue, args) {
         const url = `${BASE_URL}/directors/${args.id}`
-        console.log(url)
         return axios.get(url)
         .then(res => res.data)
       }
@@ -91,7 +91,8 @@ const RootQuery = new GraphQLObjectType({
     directors: {
       type: new GraphQLList(DirectorType),
       resolve(parentValue, args) {
-        return axios.get(`${BASE_URL}/directors/`)
+        const url = `${BASE_URL}/directors/`
+        return axios.get(url)
         .then(res => res.data)
       }
     }
@@ -106,7 +107,8 @@ const mutation = new GraphQLObjectType({
       args: {
         title: { type: new GraphQLNonNull(GraphQLString) },
         directorId: { type: new GraphQLNonNull(GraphQLInt) },
-        year: { type: new GraphQLNonNull(GraphQLInt) }
+        year: { type: new GraphQLNonNull(GraphQLInt) },
+        tmdbId: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve(parentValue, args) {
         const url = `${BASE_URL}/movies/`
@@ -124,11 +126,11 @@ const mutation = new GraphQLObjectType({
         id: { type: GraphQLNonNull(GraphQLInt) },
         title: { type: GraphQLString },
         directorId: { type: GraphQLInt },
-        year: { type: GraphQLInt }
+        year: { type: GraphQLInt },
+        tmdbId: { type: GraphQLString }
       }, 
       resolve (parentValue, args) {
         const url = `${BASE_URL}/movies/${args.id}`
-        console.log(url)
         return axios.patch(url, args)
         .then(res => res.data)
       }
@@ -140,7 +142,6 @@ const mutation = new GraphQLObjectType({
       },
       resolve (parentValue, args) {
         const url = `${BASE_URL}/movies/${args.id}`
-        console.log(url)
         return axios.delete(url, args)
         .then(res => res.data)
       }
@@ -169,7 +170,6 @@ const mutation = new GraphQLObjectType({
       }, 
       resolve (parentValue, args) {
         const url = `${BASE_URL}/directors/${args.id}`
-        console.log(url)
         return axios.patch(url, args)
         .then(res => res.data)
       }
@@ -181,7 +181,6 @@ const mutation = new GraphQLObjectType({
       },
       resolve (parentValue, args) {
         const url = `${BASE_URL}/directors/${args.id}`
-        console.log(url)
         return axios.delete(url, args)
         .then(res => res.data)
       }
