@@ -1,5 +1,6 @@
 import React from 'react'
 import { gql, useQuery} from '@apollo/client'
+import Movie from './movie'
 
 const MOVIES_QUERY = gql`
   query MoviesQuery {
@@ -25,12 +26,8 @@ function Movies() {
     return <p>Error :(</p>
   }
   console.log(data)
-  return data.movies.map(({ title, year, id }) => (
-    <div key={id}>
-      <p>
-        {title}: {year}
-      </p>
-    </div>
+  return data.movies.map(movie => (
+    <Movie key={movie.id} movie={movie} />
   ))
 }
 
