@@ -18,10 +18,10 @@
   ],
   "movies": [
     {
-      "id": 1,
       "title": "Night of the Living Dead",
       "directorId": 1,
-      "year": 1968
+      "year": 1968,
+      "id": 1
     },
     {
       "id": 2,

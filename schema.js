@@ -5,9 +5,9 @@ const {
   GraphQLInt,
   GraphQLSchema,
   GraphQLList,
-  GraphQLNonNull,
-  GraphQLInputObjectType
+  GraphQLNonNull
 } = require('graphql')
+const { BASE_URL } = require('./constant')
 
 const DirectorType = new GraphQLObjectType({
   name: 'director',
@@ -18,7 +18,7 @@ const DirectorType = new GraphQLObjectType({
     movies: {
       type: new GraphQLList(MovieType),
       resolve: (director) => {
-        return axios.get(`http://localhost:3000/movies?directorId=${director.id}`)
+        return axios.get(`${BASE_URL}/movies?directorId=${director.id}`)
         .then(res => res.data)
       }
     }
@@ -35,7 +35,7 @@ const MovieType = new GraphQLObjectType({
     director: {
       type: DirectorType,
       resolve: (movie) => {
-        return axios.get(`http://localhost:3000/directors/${movie.directorId}`)
+        return axios.get(`${BASE_URL}/directors/${movie.directorId}`)
         .then(res => res.data)
       }
     }
@@ -51,7 +51,7 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLInt }
       },
       resolve(parentValue, args) {
-        const url = `http://localhost:3000/movies/${args.id}`
+        const url = `${BASE_URL}/movies/${args.id}`
         console.log(url)
         return axios.get(url)
         .then(res => res.data)
@@ -60,7 +60,7 @@ const RootQuery = new GraphQLObjectType({
     movies: {
       type: new GraphQLList(MovieType),
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/movies/`)
+        return axios.get(`${BASE_URL}/movies/`)
         .then(res => res.data)
       }
     },
@@ -70,7 +70,7 @@ const RootQuery = new GraphQLObjectType({
         year: { type: GraphQLInt }
       },
       resolve(parentValue, args) {
-        const url = `http://localhost:3000/movies?year=${args.year}`
+        const url = `${BASE_URL}/movies?year=${args.year}`
         console.log(url)
         return axios.get(url)
         .then(res => res.data)
@@ -82,7 +82,7 @@ const RootQuery = new GraphQLObjectType({
         id: { type: GraphQLInt }
       },
       resolve(parentValue, args) {
-        const url = `http://localhost:3000/directors/${args.id}`
+        const url = `${BASE_URL}/directors/${args.id}`
         console.log(url)
         return axios.get(url)
         .then(res => res.data)
@@ -91,7 +91,7 @@ const RootQuery = new GraphQLObjectType({
     directors: {
       type: new GraphQLList(DirectorType),
       resolve(parentValue, args) {
-        return axios.get(`http://localhost:3000/directors/`)
+        return axios.get(`${BASE_URL}/directors/`)
         .then(res => res.data)
       }
     }
@@ -109,12 +109,39 @@ const mutation = new GraphQLObjectType({
         year: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve(parentValue, args) {
-        const url = 'http://localhost:3000/movies/'
+        const url = `${BASE_URL}/movies/`
         return axios.post(url, {
           title: args.title,
           directorId: args.directorId,
           year: args.year
         })
+        .then(res => res.data)
+      }
+    },
+    editMovie: {
+      type: MovieType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLInt) },
+        title: { type: GraphQLString },
+        directorId: { type: GraphQLInt },
+        year: { type: GraphQLInt }
+      }, 
+      resolve (parentValue, args) {
+        const url = `${BASE_URL}/movies/${args.id}`
+        console.log(url)
+        return axios.patch(url, args)
+        .then(res => res.data)
+      }
+    },
+    deleteMovie: {
+      type: MovieType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLInt) }
+      },
+      resolve (parentValue, args) {
+        const url = `${BASE_URL}/movies/${args.id}`
+        console.log(url)
+        return axios.delete(url, args)
         .then(res => res.data)
       }
     },
@@ -125,11 +152,37 @@ const mutation = new GraphQLObjectType({
         lastName: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parentValue, args) {
-        const url = 'http://localhost:3000/directors/'
+        const url = `${BASE_URL}/directors/`
         return axios.post(url, {
           firstName: args.firstName,
-          lastName: args.lastName,
+          lastName: args.lastName
         })
+        .then(res => res.data)
+      }
+    },
+    editDirector: {
+      type: DirectorType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLInt) },
+        firstName: { type: GraphQLString },
+        lastName: { type: GraphQLString }
+      }, 
+      resolve (parentValue, args) {
+        const url = `${BASE_URL}/directors/${args.id}`
+        console.log(url)
+        return axios.patch(url, args)
+        .then(res => res.data)
+      }
+    },
+    deleteDirector: {
+      type: DirectorType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLInt) }
+      },
+      resolve (parentValue, args) {
+        const url = `${BASE_URL}/directors/${args.id}`
+        console.log(url)
+        return axios.delete(url, args)
         .then(res => res.data)
       }
     }
