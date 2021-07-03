@@ -13,6 +13,8 @@ const MOVIES_QUERY = gql`
         firstName
         lastName
       }
+      tmdbOverview
+      tmdbPosterUrl
     }
   }
 `
@@ -26,9 +28,13 @@ function Movies() {
     return <p>Error :(</p>
   }
   console.log(data)
-  return data.movies.map(movie => (
-    <Movie key={movie.id} movie={movie} />
-  ))
+  return (
+    <div className="row">
+      {data.movies.map(movie => (
+        <Movie key={movie.id} movie={movie} />
+      ))}
+    </div>
+  )
 }
 
 export default Movies

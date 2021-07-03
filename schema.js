@@ -1,6 +1,6 @@
 require('dotenv').config()
 const axios = require('axios')
-const { BASE_URL } = require('./constant')
+const { BASE_URL, TMDB_URL, TMDB_POSTER } = require('./constant')
 
 const {
   GraphQLObjectType,
@@ -41,7 +41,21 @@ const MovieType = new GraphQLObjectType({
         .then(res => res.data)
       }
     },
-    tmdbId: { type: GraphQLString}
+    tmdbId: { type: GraphQLString},
+    tmdbOverview: {
+      type: GraphQLString,
+      resolve: async (movie) => {
+        const movieData = await axios.get(`${TMDB_URL}/${movie.tmdbId}?api_key=${process.env.TMDB_API_KEY}`)
+        return movieData.data.overview
+      }
+    },
+    tmdbPosterUrl: {
+      type: GraphQLString,
+      resolve: async (movie) => {
+        const movieData = await axios.get(`${TMDB_URL}/${movie.tmdbId}?api_key=${process.env.TMDB_API_KEY}`)
+        return `${TMDB_POSTER}${movieData.data.poster_path}`
+      }
+    }
   })
 })
 
