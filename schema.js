@@ -1,6 +1,6 @@
 require('dotenv').config()
 const axios = require('axios')
-const { BASE_URL, TMDB_URL, TMDB_POSTER } = require('./constant')
+const { BASE_URL, TMDB_URL, TMDB_POSTER, TMDB_SEARCH } = require('./constant')
 
 const {
   GraphQLObjectType,
@@ -59,6 +59,16 @@ const MovieType = new GraphQLObjectType({
   })
 })
 
+const ImdbMovieType = new GraphQLObjectType({
+  name: 'imdbMovie',
+  fields: () => ({
+    id: { type: GraphQLInt },
+    title: { type: GraphQLString },
+    poster_path: { type: GraphQLString },
+    summary: { type: GraphQLString }
+  })
+})
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
@@ -108,6 +118,18 @@ const RootQuery = new GraphQLObjectType({
         const url = `${BASE_URL}/directors/`
         return axios.get(url)
         .then(res => res.data)
+      }
+    },
+    searchTmdb: {
+      type: new GraphQLList(ImdbMovieType),
+      args: {
+        query: { type: GraphQLString }
+      },
+      resolve(parentValue, args) {
+        const url=`${TMDB_SEARCH}?api_key=${process.env.TMDB_API_KEY}&query=${args.query}`
+        console.log(url)
+        return axios.get(url)
+        .then(res => res.data.results)
       }
     }
   }

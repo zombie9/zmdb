@@ -1,10 +1,11 @@
 import './App.scss';
+import Navbar from './components/navbar'
 import Movies from './components/movies'
 
 function App() {
   return (
     <div className="container">
-      <h1 className="text-warning">ZMDB</h1>
+      <Navbar />
       <Movies />
     </div>
   );

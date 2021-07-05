@@ -5,7 +5,7 @@ function Movie(props) {
 
   return (
     <div className="col-lg-3 col-md-6">
-      <div className="card mt-3">
+      <div className="card mb-4">
         <div className="card-body">
           <p className="text-white text-bold mb-0">{movie.title}</p>
           <p className="mb-0">({movie.year})</p>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { gql, useQuery} from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 import Movie from './movie'
 
 const MOVIES_QUERY = gql`
