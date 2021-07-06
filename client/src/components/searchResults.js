@@ -1,12 +1,14 @@
 import React from 'react'
 import { gql, useQuery } from '@apollo/client'
+import SearchResult from './searchResult'
 
 const SEARCH_TMDB = gql`
   query SearchTmdb($query: String!) {
     searchTmdb(query: $query) {
       id,
       title,
-      poster_path
+      poster_path,
+      release_date
     }
   }
 `
@@ -22,11 +24,11 @@ function SearchResults(props) {
     console.error(error)
     return <p>Error :(</p>
   }
-  console.log(data)
+  console.log(query)
   return (
-    <div className="">
-      {data.searchTmdb.map(movie => (
-        <li>{movie.title}</li>
+    <div className="mt-4 row justify-content-center px-2">
+      {data.searchTmdb.length && data.searchTmdb.map(movie => (
+        <SearchResult key={movie.id} movie={movie}/>
       ))}
     </div>
   )

@@ -9,10 +9,7 @@ const MOVIES_QUERY = gql`
       tmdbId
       title
       year
-      director {
-        firstName
-        lastName
-      }
+      director
       tmdbOverview
       tmdbPosterUrl
     }

@@ -2,15 +2,20 @@ import React, { useState } from 'react'
 import SearchResults from './searchResults'
 
 function AddMovie() {
+  const [inputValue, setInputValue] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [searchSubmitted, setSearchSubmitted] = useState(false)
   
   const handleOnChange = event => {
-    setSearchQuery(event.target.value)
+    setInputValue(event.target.value)
   }
   
   const handleSearch = () => {
-    setSearchSubmitted(searchQuery)
+    if (inputValue.length) {
+      setSearchQuery(inputValue)
+      setSearchSubmitted(true)
+      setInputValue('')
+    }
   }
 
   return (
@@ -24,6 +29,7 @@ function AddMovie() {
               id="search-input"
               onChange={event => handleOnChange(event)}
               placeholder="Search..."
+              value={inputValue}
             />
             <button className="d-inline btn btn-warning ms-2" onClick={handleSearch}>Search</button>
           </div>
