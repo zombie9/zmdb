@@ -36,16 +36,28 @@ const MovieType = new GraphQLObjectType({
   })
 })
 
-const ImdbMovieType = new GraphQLObjectType({
-  name: 'imdbMovie',
+const TmdbMovieType = new GraphQLObjectType({
+  name: 'tmdbMovie',
   fields: () => ({
     id: { type: GraphQLInt },
     title: { type: GraphQLString },
     poster_path: { type: GraphQLString },
     release_date: { type: GraphQLString },
-    summary: { type: GraphQLString }
+    overview: { type: GraphQLString }
   })
 })
+
+const TmdbObjectType = new GraphQLObjectType({
+  name: 'tmdbOject',
+  fields: () => ({
+    page: { type: GraphQLInt },
+    total_pages: { type: GraphQLInt },
+    total_results: { type: GraphQLInt },
+    results: { type: GraphQLList(TmdbMovieType) }
+  })
+})
+
+
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -55,7 +67,7 @@ const RootQuery = new GraphQLObjectType({
       args: {
         id: { type: GraphQLInt }
       },
-      resolve(parentValue, args) {
+      resolve(parent, args) {
         const url = `${BASE_URL}/movies/${args.id}`
         return axios.get(url)
         .then(res => res.data)
@@ -63,7 +75,7 @@ const RootQuery = new GraphQLObjectType({
     },
     movies: {
       type: new GraphQLList(MovieType),
-      resolve(parentValue, args) {
+      resolve(parent, args) {
         return axios.get(`${BASE_URL}/movies/`)
         .then(res => res.data)
       }
@@ -73,22 +85,22 @@ const RootQuery = new GraphQLObjectType({
       args: {
         year: { type: GraphQLInt }
       },
-      resolve(parentValue, args) {
+      resolve(parent, args) {
         const url = `${BASE_URL}/movies?year=${args.year}`
         return axios.get(url)
         .then(res => res.data)
       }
     },
     searchTmdb: {
-      type: new GraphQLList(ImdbMovieType),
+      type: TmdbObjectType,
       args: {
         query: { type: GraphQLString }
       },
-      resolve(parentValue, args) {
+      resolve(parent, args) {
         const url=`${TMDB_SEARCH}?api_key=${process.env.TMDB_API_KEY}&query=${args.query}`
         console.log(url)
         return axios.get(url)
-        .then(res => res.data.results)
+        .then(res => res.data)
       }
     }
   }
@@ -105,7 +117,7 @@ const mutation = new GraphQLObjectType({
         year: { type: new GraphQLNonNull(GraphQLInt) },
         tmdbId: { type: new GraphQLNonNull(GraphQLInt) }
       },
-      resolve(parentValue, args) {
+      resolve(parent, args) {
         const url = `${BASE_URL}/movies/`
         return axios.post(url, {
           title: args.title,
@@ -125,7 +137,7 @@ const mutation = new GraphQLObjectType({
         year: { type: GraphQLInt },
         tmdbId: { type: GraphQLString }
       }, 
-      resolve (parentValue, args) {
+      resolve (parent, args) {
         const url = `${BASE_URL}/movies/${args.id}`
         return axios.patch(url, args)
         .then(res => res.data)
@@ -136,7 +148,7 @@ const mutation = new GraphQLObjectType({
       args: {
         id: { type: GraphQLNonNull(GraphQLInt) }
       },
-      resolve (parentValue, args) {
+      resolve (parent, args) {
         const url = `${BASE_URL}/movies/${args.id}`
         return axios.delete(url, args)
         .then(res => res.data)
