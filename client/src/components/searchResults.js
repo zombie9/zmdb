@@ -19,8 +19,6 @@ const SEARCH_TMDB = gql`
   }
 `
 
-
-
 function SearchResults(props) {
   const { query } = props
   const [currentPage, setCurrentPage] = useState(1)
@@ -50,7 +48,7 @@ function SearchResults(props) {
 
   return (
     <>
-      <div className="mt-4 row justify-content-center gx-2 px-2">
+      <div className="mt-4 row gx-2 px-2">
         {data.searchTmdb.results.length && data.searchTmdb.results.map((movie, index) => (
           <>
             <SearchResult key={movie.id} movie={movie}/>

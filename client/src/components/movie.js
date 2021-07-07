@@ -8,10 +8,10 @@ function Movie(props) {
       <div className="card mb-4">
         <div className="card-body">
           <p className="text-white text-bold mb-0">{movie.title}</p>
-          <p className="mb-0">({movie.year})</p>
+          <p className="mb-0">{movie.year}</p>
           <p><em>{movie.director}</em></p>
           <hr />
-          <img className="mw-100" alt="poster" src={movie.tmdbPosterUrl} />
+          <img className="mw-100 border rounded" alt="poster" src={movie.tmdbPosterUrl} />
         </div>
       </div>
     </div>

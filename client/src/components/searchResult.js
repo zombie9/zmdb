@@ -19,7 +19,7 @@ const SearchResult = (props) => {
       <>
         <div className="col-lg-1 col-md-2 col-sm-3 col-4 mb-2">
           <button 
-            className="p-0 border border-warning w-100 h-100 bg-light"
+            className="p-0 border w-100 h-100 bg-light"
             onClick={() => modal.show()}
           >
             <img 
@@ -43,7 +43,7 @@ const SearchResult = (props) => {
               <div className="row">
                 <div className="col-md-6">
                   <img 
-                    className="mw-100" 
+                    className="mw-100 border rounded" 
                     alt="poster" 
                     src={`${TMDB_POSTER}${movie.poster_path}`}
                   />
@@ -51,9 +51,9 @@ const SearchResult = (props) => {
                 <div className="col-md-6">
                   <p>
                     {
-                      movie.overview.length < 720
+                      movie.overview.length < 1000
                       ? movie.overview
-                      : `${movie.overview.substring(0, 719)}...`
+                      : `${movie.overview.substring(0, 999)}...`
                     }
                   </p>
                 </div>
