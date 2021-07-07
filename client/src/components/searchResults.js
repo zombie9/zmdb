@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { gql, useQuery } from '@apollo/client'
 import SearchResult from './searchResult'
 
 const SEARCH_TMDB = gql`
-  query SearchTmdb($query: String!) {
-    searchTmdb(query: $query) {
+  query SearchTmdb($query: String!, $page: Int) {
+    searchTmdb(query: $query, page: $page) {
       page,
       total_pages,
       total_results,
@@ -19,10 +19,18 @@ const SEARCH_TMDB = gql`
   }
 `
 
+
+
 function SearchResults(props) {
   const { query } = props
+  const [currentPage, setCurrentPage] = useState(1)
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [query])
+  
   const { loading, error, data } = useQuery(SEARCH_TMDB, {
-    variables: { query: query }
+    variables: { query: query, page: currentPage }
   })
   
   if (loading) return <p>Loading...</p>
@@ -33,8 +41,13 @@ function SearchResults(props) {
 
   const checkNextPage = (index) => {
     return index === data.searchTmdb.results.length - 1
+      && currentPage < data.searchTmdb.total_pages
   }
-  console.log(data)
+  const handleNextPage = () => {
+    currentPage < data.searchTmdb.total_pages
+      && setCurrentPage(currentPage + 1)
+  }
+
   return (
     <>
       <div className="mt-4 row justify-content-center gx-2 px-2">
@@ -43,7 +56,7 @@ function SearchResults(props) {
             <SearchResult key={movie.id} movie={movie}/>
             {checkNextPage(index)
               ? <div key={index} className="col-lg-1 col-md-2 col-sm-3 col-4 mb-2 d-flex align-items-center justify-content-center">
-                  <h3><i className="text-warning bi-plus-circle" onClick={event => console.log(event)}></i></h3>
+                  <h3 key={index}><i className="text-warning bi-plus-circle" onClick={handleNextPage}></i></h3>
                 </div>
               : null
             }

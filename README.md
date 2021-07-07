@@ -1,26 +1,24 @@
-# GraphQL Server
+# ZMDB
 
-Basic GraphQL server using `express`, `experss-graphql` and `json-server`
-Uses zombie movies as data :-)
+- GraphQL server using `express`, `experss-graphql` calling a deployed JSON server and the TMDB api
+- React front end using Apollo Client
+- Uses zombie movies as data :-)
 
 ## Run locally
 
-Clone the repo and insall dependencies with `npm install`
-Run `npm run serve` to spin up the JSON server on port 3000
-Run `npm run start` to spin up the GraphQL server on port 4000
-Visit `http://localhost:4000/graphql` for GraphiQL interface
+- Clone the repo and install dependencies with `npm install`
+- Run `npm run start`
+- Visit `http://localhost:4000/graphql` for GraphiQL interface
+- Visit `http://localhost:3000` for the client
 
-Queries:
+### Queries:
 - movie (id)
 - movies 
 - moviesByYear (year)
-- director (id)
-- directors 
+- searchTmdb (query, page)
 
-Mutations:
+### Mutations:
 - addMovie
-- addDirector
-- editMovie
-- editDirector
 - deleteMovie
-- deleteDirector
+- editMovie
+

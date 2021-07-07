@@ -94,10 +94,11 @@ const RootQuery = new GraphQLObjectType({
     searchTmdb: {
       type: TmdbObjectType,
       args: {
-        query: { type: GraphQLString }
+        query: { type: GraphQLString },
+        page: { type: GraphQLInt }
       },
       resolve(parent, args) {
-        const url=`${TMDB_SEARCH}?api_key=${process.env.TMDB_API_KEY}&query=${args.query}`
+        const url=`${TMDB_SEARCH}?api_key=${process.env.TMDB_API_KEY}&query=${args.query}&page=${args.page || 1}`
         console.log(url)
         return axios.get(url)
         .then(res => res.data)
