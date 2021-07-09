@@ -1,25 +1,18 @@
-import React from 'react'
-import { gql, useQuery } from '@apollo/client'
+// import React, { useState, useEffect } from 'react'
+import { useQuery } from '@apollo/client'
 import Movie from './movie'
+import { MOVIES_QUERY } from '../queries'
+import { Spinner } from 'react-bootstrap'
 
-const MOVIES_QUERY = gql`
-  query MoviesQuery {
-    movies {
-      id
-      tmdbId
-      title
-      year
-      director
-      tmdbOverview
-      tmdbPosterUrl
-    }
-  }
-`
-
-function Movies() {
-  const { loading, error, data } = useQuery(MOVIES_QUERY)
-  
-  if (loading) return <p>Loading...</p>
+const Movies = () => {
+  // const [movies, setMovies] = useState([])
+  const { loading, error, data } = useQuery(MOVIES_QUERY, {
+    fetchPolicy: 'cache-and-network'
+  })
+  // useEffect(() => {
+  //   data && setMovies(data.movies)
+  // }, [data])
+  if (loading) return <div className="mt-5 w-100 d-flex justify-content-center"><Spinner animation="border" variant="warning" /></div>
   if (error) {
     console.error(error)
     return <p>Error :(</p>

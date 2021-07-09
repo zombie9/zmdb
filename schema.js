@@ -16,7 +16,15 @@ const MovieType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLInt },
     title: { type: GraphQLString },
-    director: { type: GraphQLString },
+    director: { 
+      type: GraphQLString,
+      resolve: async(movie) => {
+        const creditsData = await axios.get(`${TMDB_URL}/${movie.tmdbId}/credits?api_key=${process.env.TMDB_API_KEY}`)
+        const directorObject = creditsData.data.crew.find(crewMember => crewMember.job === 'Director')
+        const director = directorObject ? directorObject.name : 'Director not found.'
+        return director
+      }
+    },
     year: { type: GraphQLInt },
     tmdbId: { type: GraphQLString},
     tmdbOverview: {
@@ -43,7 +51,7 @@ const TmdbMovieType = new GraphQLObjectType({
     title: { type: GraphQLString },
     poster_path: { type: GraphQLString },
     release_date: { type: GraphQLString },
-    overview: { type: GraphQLString }
+    overview: { type: GraphQLString },
   })
 })
 
@@ -57,7 +65,22 @@ const TmdbObjectType = new GraphQLObjectType({
   })
 })
 
+const TmdbCrewType = new GraphQLObjectType({
+  name: 'tmdbCrew',
+  fields: () => ({
+    id: { type: GraphQLInt },
+    job: { type: GraphQLString },
+    name: { type: GraphQLString },
+  })
+})
 
+const TmdbCreditType = new GraphQLObjectType({
+  name: 'tmdbCredit',
+  fields: () => ({
+    id: { type: GraphQLInt },
+    crew: { type: GraphQLList(TmdbCrewType) }
+  })
+})
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -103,6 +126,17 @@ const RootQuery = new GraphQLObjectType({
         return axios.get(url)
         .then(res => res.data)
       }
+    },
+    getMovieCredits: {
+      type: TmdbCreditType,
+      args: {
+        tmdbId: { type: GraphQLInt }
+      },
+      resolve(parent, args) {
+        const url = `${TMDB_URL}/${args.tmdbId}/credits?api_key=${process.env.TMDB_API_KEY}`
+        return axios.get(url)
+        .then(res => res.data)
+      }
     }
   }
 })
@@ -114,7 +148,6 @@ const mutation = new GraphQLObjectType({
       type: MovieType,
       args: {
         title: { type: new GraphQLNonNull(GraphQLString) },
-        director: { type: new GraphQLNonNull(GraphQLString) },
         year: { type: new GraphQLNonNull(GraphQLInt) },
         tmdbId: { type: new GraphQLNonNull(GraphQLInt) }
       },
@@ -122,7 +155,6 @@ const mutation = new GraphQLObjectType({
         const url = `${BASE_URL}/movies/`
         return axios.post(url, {
           title: args.title,
-          director: args.director,
           year: args.year,
           tmdbId: args.tmdbId
         })
