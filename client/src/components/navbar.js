@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import AddMovie from './addMovie'
+import SearchMovies from './searchMovies'
 
 function Navbar() {
   const [addActive, setAddActive] = useState(false)
@@ -16,7 +16,7 @@ function Navbar() {
           : <h3><i className="text-warning bi-plus-circle" onClick={event => handleClick(event)}></i></h3>
         }
       </div>
-      { addActive && <AddMovie /> }
+      { addActive && <SearchMovies /> }
     </>
   )
 }

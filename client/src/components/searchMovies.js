@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import SearchResults from './searchResults'
 
-function AddMovie() {
+function SearchMovies() {
   const [inputValue, setInputValue] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [searchSubmitted, setSearchSubmitted] = useState(false)
@@ -40,4 +40,4 @@ function AddMovie() {
   )
 }
 
-export default AddMovie
+export default SearchMovies

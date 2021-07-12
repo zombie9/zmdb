@@ -1,5 +1,5 @@
 {
-  "name": "graphql-server",
+  "name": "zmdb",
   "version": "1.0.0",
   "description": "graphql",
   "main": "server.js",
