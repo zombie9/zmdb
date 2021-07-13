@@ -9,7 +9,6 @@ const AddMovieButton = ({ movie, handleClose }) => {
     {
       update(cache, { data }) {
         const newMovie = data?.addMovie
-        console.log(newMovie)
         const existingMovies = cache.readQuery({
           query: MOVIES_QUERY
         })

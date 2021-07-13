@@ -6,18 +6,16 @@ import { GET_TMDB_CREDITS} from '../queries'
 import AddMovieButton from './addMovieButton'
 
 const SearchResultModal = ({ movie, setShowModal }) => {
-  console.log(movie)
   const [show, setShow] = useState(true)
 
   const { loading, error, data } = useQuery(GET_TMDB_CREDITS, {
     variables: { tmdbId: movie.id }
   })
-  if (loading) return <div className="mt-5 w-100 d-flex justify-content-center"><Spinner animation="border" variant="warning" /></div>
+  if (loading) return <div className="position-absolute top-0 left-0 h-100 w-100 d-flex align-items-center justify-content-center"><Spinner animation="border" variant="warning" /></div>
   if (error) {
     console.error(error)
     return <p>Error :(</p>
   }
-  console.log(data.getMovieCredits)
   const directorObject = data.getMovieCredits.crew.find(crewMember => crewMember.job === 'Director' || crewMember.job === 'Screenplay')
   const director = directorObject ? directorObject.name : 'Director not found.'
   const newMovie = {
