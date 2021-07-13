@@ -24,9 +24,6 @@ const AddMovieButton = ({ movie, handleClose }) => {
         })
       }
     }
-    // {
-    //   refetchQueries: [ { query: MOVIES_QUERY } ]
-    // }
   )
 
   const handleAddMovie = async() => {
