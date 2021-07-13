@@ -28,12 +28,29 @@ export const GET_TMDB_CREDITS = gql`
 `
 
 export const ADD_MOVIE = gql`
-  mutation addMovie($title: String!, $year: Int!, $tmdbId: Int!) {
-    addMovie(title: $title, year: $year, tmdbId: $tmdbId) {
+  mutation addMovie(
+    $title: String!, 
+    $year: Int!, 
+    $tmdbId: Int!, 
+    $director: String!, 
+    $tmdbOverview: String!,
+    $tmdbPosterUrl: String!
+  ) {
+    addMovie(
+      title: $title, 
+      year: $year, 
+      tmdbId: $tmdbId, 
+      director: $director, 
+      tmdbOverview: $tmdbOverview, 
+      tmdbPosterUrl: $tmdbPosterUrl
+    ) {
       id,
       title,
       year,
-      tmdbId
+      tmdbId,
+      director,
+      tmdbOverview,
+      tmdbPosterUrl
     }
   }
 `

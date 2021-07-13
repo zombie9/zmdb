@@ -7,7 +7,7 @@ import { Spinner } from 'react-bootstrap'
 const Movies = () => {
   // const [movies, setMovies] = useState([])
   const { loading, error, data } = useQuery(MOVIES_QUERY, {
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'cache-first'
   })
   // useEffect(() => {
   //   data && setMovies(data.movies)

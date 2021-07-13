@@ -1,47 +1,35 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/client'
-import { Modal, Button } from 'react-bootstrap'
+import { useQuery } from '@apollo/client'
+import { Modal, Spinner } from 'react-bootstrap'
 import { TMDB_POSTER } from '../constant'
-import { MOVIES_QUERY, ADD_MOVIE } from '../queries'
+import { GET_TMDB_CREDITS} from '../queries'
+import AddMovieButton from './addMovieButton'
 
 const SearchResultModal = ({ movie, setShowModal }) => {
   console.log(movie)
   const [show, setShow] = useState(true)
 
-  const [addMovie] = useMutation(
-    ADD_MOVIE,
-    // {
-    //   update(cache, { data }) {
-    //     const newMovie = data?.addMovie
-    //     const existingMovies = cache.readQuery({
-    //       query: MOVIES_QUERY
-    //     })
-
-    //     cache.writeQuery({
-    //       query: MOVIES_QUERY,
-    //       data: [
-    //         ...existingMovies?.movies,
-    //         newMovie
-    //       ]
-    //     })
-    //   }
-    // },
-    {
-      refetchQueries: [ { query: MOVIES_QUERY } ]
-    }
-  )
-
-  const handleClose = () => {
-    setShow(false)
-    setShowModal(false)
+  const { loading, error, data } = useQuery(GET_TMDB_CREDITS, {
+    variables: { tmdbId: movie.id }
+  })
+  if (loading) return <div className="mt-5 w-100 d-flex justify-content-center"><Spinner animation="border" variant="warning" /></div>
+  if (error) {
+    console.error(error)
+    return <p>Error :(</p>
+  }
+  console.log(data.getMovieCredits)
+  const directorObject = data.getMovieCredits.crew.find(crewMember => crewMember.job === 'Director' || crewMember.job === 'Screenplay')
+  const director = directorObject ? directorObject.name : 'Director not found.'
+  const newMovie = {
+    title: movie.title,
+    director: director,
+    year: parseInt(movie.release_date.substring(0, 4)),
+    tmdbId: movie.id,
+    tmdbOverview: movie.overview,
+    tmdbPosterUrl: `${TMDB_POSTER}${movie.poster_path}`
   }
 
-  const handleAddMovie = async() => {
-    await addMovie({ variables: {
-      title: movie.title,
-      year: parseInt(movie.release_date.substring(0, 4)),
-      tmdbId: movie.id
-    }})
+  const handleClose = () => {
     setShow(false)
     setShowModal(false)
   }
@@ -49,7 +37,7 @@ const SearchResultModal = ({ movie, setShowModal }) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header>
-        <Modal.Title>{movie.title}</Modal.Title>
+        <Modal.Title>{newMovie.title}</Modal.Title>
         <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
       </Modal.Header>
       <Modal.Body>
@@ -58,25 +46,24 @@ const SearchResultModal = ({ movie, setShowModal }) => {
             <img 
               className="mw-100 border rounded" 
               alt="poster" 
-              src={`${TMDB_POSTER}${movie.poster_path}`}
+              src={`${TMDB_POSTER}${newMovie.tmdbPosterUrl}`}
             />
           </div>
           <div className="col-md-6">
-            <p><em>{movie.director}</em></p>
+          <p className="mb-0">{newMovie.year}</p>
+            <p><em>{director}</em></p>
             <p>
               {
                 movie.overview.length < 1000
                 ? movie.overview
-                : `${movie.overview.substring(0, 999)}...`
+                : `${movie.tmdbOverview.substring(0, 999)}...`
               }
             </p>
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="warning" onClick={handleAddMovie}>
-          Save to ZMDB
-        </Button>
+        <AddMovieButton movie={newMovie} handleClose={handleClose} />
       </Modal.Footer>
     </Modal>
   )
