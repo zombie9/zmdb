@@ -139,17 +139,6 @@ const mutation = new GraphQLObjectType({
         tmdbPosterUrl: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parent, args) {
-        // const url = `${BASE_URL}/movies/`
-        // console.log(args)
-        // return axios.post(url, {
-        //   title: args.title,
-        //   director: args.director,
-        //   year: args.year,
-        //   tmdbId: args.tmdbId,
-        //   tmdbOverview: args.tmdbOverview,
-        //   tmdbPosterUrl: args.tmdbPosterUrl
-        // })
-        // .then(res => res.data)
         const movie = new Movie(args)
         console.log(movie)
         return movie.save().then((movie) => {

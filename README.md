@@ -1,6 +1,6 @@
 # ZMDB
 
-- GraphQL server using `express`, `experss-graphql` calling a deployed JSON server and the TMDB api
+- GraphQL server using `express`, `experss-graphql` persisting to `mongodb atlas` and fetching details from the TMDB api
 - React front end using Apollo Client
 - Uses zombie movies as data :-)
 
@@ -12,13 +12,10 @@
 - Visit `http://localhost:3000` for the client
 
 ### Queries:
-- movie (id)
-- movies 
-- moviesByYear (year)
+- movies (all)
 - searchTmdb (query, page)
+- getMovieCredtits (tmdbId)
 
 ### Mutations:
 - addMovie
-- deleteMovie
-- editMovie
 
