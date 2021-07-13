@@ -1,6 +1,7 @@
 require('dotenv').config()
 const axios = require('axios')
-const { BASE_URL, TMDB_URL, TMDB_POSTER, TMDB_SEARCH } = require('./constant')
+const { BASE_URL, TMDB_URL, TMDB_SEARCH } = require('./constant')
+const Movie = require('./models/movie')
 
 const {
   GraphQLObjectType,
@@ -11,43 +12,10 @@ const {
   GraphQLNonNull
 } = require('graphql')
 
-// const MovieType = new GraphQLObjectType({
-//   name: 'movie',
-//   fields: () => ({
-//     id: { type: GraphQLInt },
-//     title: { type: GraphQLString },
-//     director: { 
-//       type: GraphQLString,
-//       resolve: async(movie) => {
-//         const creditsData = await axios.get(`${TMDB_URL}/${movie.tmdbId}/credits?api_key=${process.env.TMDB_API_KEY}`)
-//         const directorObject = creditsData.data.crew.find(crewMember => crewMember.job === 'Director')
-//         const director = directorObject ? directorObject.name : 'Director not found.'
-//         return director
-//       }
-//     },
-//     year: { type: GraphQLInt },
-//     tmdbId: { type: GraphQLString},
-//     tmdbOverview: {
-//       type: GraphQLString,
-//       resolve: async (movie) => {
-//         const movieData = await axios.get(`${TMDB_URL}/${movie.tmdbId}?api_key=${process.env.TMDB_API_KEY}`)
-//         return movieData.data.overview
-//       }
-//     },
-//     tmdbPosterUrl: {
-//       type: GraphQLString,
-//       resolve: async (movie) => {
-//         const movieData = await axios.get(`${TMDB_URL}/${movie.tmdbId}?api_key=${process.env.TMDB_API_KEY}`)
-//         return `${TMDB_POSTER}${movieData.data.poster_path}`
-//       }
-//     }
-//   })
-// })
-
 const MovieType = new GraphQLObjectType({
   name: 'movie',
   fields: () => ({
-    id: { type: GraphQLInt },
+    id: { type: GraphQLString },
     title: { type: GraphQLString },
     director: { type: GraphQLString },
     year: { type: GraphQLInt },
@@ -112,8 +80,11 @@ const RootQuery = new GraphQLObjectType({
     movies: {
       type: new GraphQLList(MovieType),
       resolve(parent, args) {
-        return axios.get(`${BASE_URL}/movies/`)
-        .then(res => res.data)
+        return Movie.find()
+        .then(movies => {
+          console.log(movies)
+          return movies
+        })
       }
     },
     moviesByYear: {
@@ -161,24 +132,29 @@ const mutation = new GraphQLObjectType({
       type: MovieType,
       args: {
         title: { type: new GraphQLNonNull(GraphQLString) },
-        director: { type: GraphQLString },
+        director: { type: new GraphQLNonNull(GraphQLString) },
         year: { type: new GraphQLNonNull(GraphQLInt) },
         tmdbId: { type: new GraphQLNonNull(GraphQLInt) },
-        tmdbOverview: { type: GraphQLString },
-        tmdbPosterUrl: { type: GraphQLString }
+        tmdbOverview: { type: new GraphQLNonNull(GraphQLString) },
+        tmdbPosterUrl: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve(parent, args) {
-        const url = `${BASE_URL}/movies/`
-        console.log(args)
-        return axios.post(url, {
-          title: args.title,
-          director: args.director,
-          year: args.year,
-          tmdbId: args.tmdbId,
-          tmdbOverview: args.tmdbOverview,
-          tmdbPosterUrl: args.tmdbPosterUrl
-        })
-        .then(res => res.data)
+        // const url = `${BASE_URL}/movies/`
+        // console.log(args)
+        // return axios.post(url, {
+        //   title: args.title,
+        //   director: args.director,
+        //   year: args.year,
+        //   tmdbId: args.tmdbId,
+        //   tmdbOverview: args.tmdbOverview,
+        //   tmdbPosterUrl: args.tmdbPosterUrl
+        // })
+        // .then(res => res.data)
+        const movie = new Movie(args)
+        console.log(movie)
+        return movie.save().then((movie) => {
+          return movie
+        }).catch(error => console.log(error))
       }
     },
     editMovie: {
