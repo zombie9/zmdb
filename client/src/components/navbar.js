@@ -1,22 +1,39 @@
 import React, {useState} from 'react'
 import SearchMovies from './searchMovies'
+import FilterMovies from './filterMovies'
 
 function Navbar() {
   const [addActive, setAddActive] = useState(false)
-  const handleClick = (event) => {
+  const [filterActive, setFilterActive] = useState(false)
+  
+  const handleAddClick = () => {
+    if (filterActive) return
     setAddActive(!addActive)
+  }
+  const handleFilterClick = () => {
+    if (addActive) return
+    setFilterActive(!filterActive)
   }
 
   return (
     <>
       <div className="d-flex flex-row align-items-center justify-content-between mt-2">
         <h2 className="text-warning">ZMDB</h2>
-        { addActive 
-          ? <h3><i className="text-warning bi-x-circle" onClick={event => handleClick(event)}></i></h3>
-          : <h3><i className="text-warning bi-plus-circle" onClick={event => handleClick(event)}></i></h3>
-        }
+        <div className="d-flex flex-row">
+          { addActive 
+            ? <h3><i style={{cursor:"pointer"}} className="text-warning bi-x-circle me-4" onClick={handleAddClick}></i></h3>
+            : <h3 className={filterActive ? "text-muted pe-none" : "text-warning"}><i style={{cursor:"pointer"}} className="bi-plus-circle me-4" onClick={event => handleAddClick(event)}></i></h3>
+          }
+          { filterActive
+            ? <h3><i style={{cursor:"pointer"}} className="text-warning bi-x-circle" onClick={handleFilterClick}></i></h3>
+            : <h3 className={addActive ? "text-muted pe-none" : "text-warning"}><i style={{cursor:"pointer"}} onClick={event => handleFilterClick(event)} className="bi-filter-circle"></i></h3>
+          }
+
+        </div>
+        
       </div>
       { addActive && <SearchMovies /> }
+      { filterActive && <FilterMovies />}
     </>
   )
 }

@@ -82,9 +82,9 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return Movie.find()
         .then(movies => {
-          console.log(movies)
           return movies
         })
+        .catch(error => console.error(error))
       }
     },
     moviesByYear: {

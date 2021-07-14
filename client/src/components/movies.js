@@ -15,7 +15,7 @@ const Movies = () => {
     return <p>Error :(</p>
   }
   return (
-    <div className="row">
+    <div className="row card-group row-cols-2 row-cols-md-4 row-cols-lg-5 g-4">
       {data.movies.map(movie => (
         <Movie key={movie.id} movie={movie} />
       ))}
