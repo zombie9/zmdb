@@ -56,18 +56,25 @@ export const ADD_MOVIE = gql`
 `
 
 export const SEARCH_TMDB = gql`
-query SearchTmdb($query: String!, $page: Int) {
-  searchTmdb(query: $query, page: $page) {
-    page,
-    total_pages,
-    total_results,
-    results {
-      id,
-      title,
-      poster_path,
-      release_date,
-      overview
+  query SearchTmdb($query: String!, $page: Int) {
+    searchTmdb(query: $query, page: $page) {
+      page,
+      total_pages,
+      total_results,
+      results {
+        id,
+        title,
+        poster_path,
+        release_date,
+        overview
+      }
     }
   }
-}
+`
+export const DELETE_MOVIE = gql`
+  mutation DeleteMovie($id: String!) {
+    deleteMovie(id: $id) {
+      id
+    }
+  }
 `

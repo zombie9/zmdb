@@ -24,7 +24,7 @@ const SearchResult = (props) => {
               alt="poster" 
               src={`${TMDB_POSTER}${movie.poster_path}`}
             />
-          </button>        
+          </button>     
         </div>
         {showModal && <SearchResultModal movie={movie} setShowModal={setShowModal} />}   
       </>

@@ -8,7 +8,7 @@ import { useReactiveVar } from '@apollo/client'
 
 const Movies = () => {
   const currentFilters = useReactiveVar(filterList)
-  console.log(currentFilters)
+
   const { loading, error, data } = useQuery(MOVIES_QUERY, {
     fetchPolicy: 'cache-first'
   })

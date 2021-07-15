@@ -66,17 +66,6 @@ const TmdbCreditType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    movie: {
-      type: MovieType,
-      args: {
-        id: { type: GraphQLInt }
-      },
-      resolve(parent, args) {
-        const url = `${BASE_URL}/movies/${args.id}`
-        return axios.get(url)
-        .then(res => res.data)
-      }
-    },
     movies: {
       type: new GraphQLList(MovieType),
       resolve(parent, args) {
@@ -85,17 +74,6 @@ const RootQuery = new GraphQLObjectType({
           return movies
         })
         .catch(error => console.error(error))
-      }
-    },
-    moviesByYear: {
-      type: new GraphQLList(MovieType),
-      args: {
-        year: { type: GraphQLInt }
-      },
-      resolve(parent, args) {
-        const url = `${BASE_URL}/movies?year=${args.year}`
-        return axios.get(url)
-        .then(res => res.data)
       }
     },
     searchTmdb: {
@@ -140,38 +118,21 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         const movie = new Movie(args)
-        console.log(movie)
         return movie.save().then((movie) => {
           return movie
         }).catch(error => console.log(error))
       }
     },
-    editMovie: {
-      type: MovieType,
-      args: {
-        id: { type: GraphQLNonNull(GraphQLInt) },
-        title: { type: GraphQLString },
-        director: { type: GraphQLString },
-        year: { type: GraphQLInt },
-        tmdbId: { type: GraphQLString },
-        tmdbOverview: { type: GraphQLString },
-        tmdbPosterUrl: { type: GraphQLString }
-      }, 
-      resolve (parent, args) {
-        const url = `${BASE_URL}/movies/${args.id}`
-        return axios.patch(url, args)
-        .then(res => res.data)
-      }
-    },
     deleteMovie: {
       type: MovieType,
       args: {
-        id: { type: GraphQLNonNull(GraphQLInt) }
+        id: { type: GraphQLNonNull(GraphQLString) }
       },
       resolve (parent, args) {
-        const url = `${BASE_URL}/movies/${args.id}`
-        return axios.delete(url, args)
-        .then(res => res.data)
+        Movie.findByIdAndDelete(args.id, (err) => {
+          if(err) console.log(err)
+          console.log("Successful deletion")
+        });
       }
     }
   }
