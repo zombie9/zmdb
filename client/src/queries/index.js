@@ -10,6 +10,7 @@ export const MOVIES_QUERY = gql`
       director
       tmdbOverview
       tmdbPosterUrl
+      tmdbBackdropUrl
     }
   }
 `
@@ -34,7 +35,8 @@ export const ADD_MOVIE = gql`
     $tmdbId: Int!, 
     $director: String!, 
     $tmdbOverview: String!,
-    $tmdbPosterUrl: String!
+    $tmdbPosterUrl: String!,
+    $tmdbBackdropUrl: String
   ) {
     addMovie(
       title: $title, 
@@ -42,7 +44,8 @@ export const ADD_MOVIE = gql`
       tmdbId: $tmdbId, 
       director: $director, 
       tmdbOverview: $tmdbOverview, 
-      tmdbPosterUrl: $tmdbPosterUrl
+      tmdbPosterUrl: $tmdbPosterUrl,
+      tmdbBackdropUrl: $tmdbBackdropUrl
     ) {
       id,
       title,
@@ -50,7 +53,8 @@ export const ADD_MOVIE = gql`
       tmdbId,
       director,
       tmdbOverview,
-      tmdbPosterUrl
+      tmdbPosterUrl,
+      tmdbBackdropUrl
     }
   }
 `
@@ -66,7 +70,8 @@ export const SEARCH_TMDB = gql`
         title,
         poster_path,
         release_date,
-        overview
+        overview,
+        backdrop_path
       }
     }
   }

@@ -20,7 +20,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="d-flex flex-row align-items-center justify-content-between mt-2">
+      <div style={{background: '#060606'}}className="d-flex flex-row align-items-center justify-content-between mt-2 0 sticky-top">
         <h2 className="text-warning">ZMDB</h2>
         <div className="d-flex flex-row">
           { addActive 

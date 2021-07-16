@@ -21,7 +21,8 @@ const MovieType = new GraphQLObjectType({
     year: { type: GraphQLInt },
     tmdbId: { type: GraphQLString},
     tmdbOverview: { type: GraphQLString },
-    tmdbPosterUrl: { type: GraphQLString }
+    tmdbPosterUrl: { type: GraphQLString },
+    tmdbBackdropUrl: { type: GraphQLString }
   })
 })
 
@@ -33,6 +34,7 @@ const TmdbMovieType = new GraphQLObjectType({
     poster_path: { type: GraphQLString },
     release_date: { type: GraphQLString },
     overview: { type: GraphQLString },
+    backdrop_path: { type: GraphQLString }
   })
 })
 
@@ -84,7 +86,6 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve(parent, args) {
         const url=`${TMDB_SEARCH}?api_key=${process.env.TMDB_API_KEY}&query=${args.query}&page=${args.page || 1}`
-        console.log(url)
         return axios.get(url)
         .then(res => res.data)
       }
@@ -114,7 +115,8 @@ const mutation = new GraphQLObjectType({
         year: { type: new GraphQLNonNull(GraphQLInt) },
         tmdbId: { type: new GraphQLNonNull(GraphQLInt) },
         tmdbOverview: { type: new GraphQLNonNull(GraphQLString) },
-        tmdbPosterUrl: { type: new GraphQLNonNull(GraphQLString) }
+        tmdbPosterUrl: { type: new GraphQLNonNull(GraphQLString) },
+        tmdbBackdropUrl: { type: GraphQLString }
       },
       resolve(parent, args) {
         const movie = new Movie(args)
@@ -131,13 +133,11 @@ const mutation = new GraphQLObjectType({
       resolve (parent, args) {
         Movie.findByIdAndDelete(args.id, (err) => {
           if(err) console.log(err)
-          console.log("Successful deletion")
         });
       }
     }
   }
 })
-
 
 module.exports = new GraphQLSchema({
   query: RootQuery,

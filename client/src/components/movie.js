@@ -23,8 +23,8 @@ function Movie(props) {
               alt="poster" 
               src={movie.tmdbPosterUrl} />
           </div>
-          <div className="card-footer">
-            <small className="text-dark"><em>{movie.director}</em></small>
+          <div className="card-footer w-100">
+            <small className="text-dark text-start"><em>{movie.director}</em></small>
           </div>
         </button>
       </div>

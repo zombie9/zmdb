@@ -1,6 +1,6 @@
 # ZMDB
 
-- GraphQL server using `express`, `experss-graphql` 
+- GraphQL server using `experss-graphql` 
 - Persisting to `mongodb atlas` and consuming data from the TMDB api
 - React front end using Apollo Client
 - Uses zombie movies as data :-)
@@ -19,6 +19,8 @@
 - All movies displayed with poster images
 - View details and overview of movies before adding
 - Filter ZMDB movies by title, director and/or year
+- View movie details and credits for saved movies
+- Remove movies from ZMDB
 
 ### Queries:
 - movies (all)
@@ -27,4 +29,5 @@
 
 ### Mutations:
 - addMovie
+- deleteMovie
 

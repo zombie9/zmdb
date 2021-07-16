@@ -7,7 +7,6 @@ import DeleteMovieButton from './deleteMovieButton'
 
 const MovieModal = ({ movie, setShowModal }) => {
   const [show, setShow] = useState(true)
-  console.log(movie)
   const { loading, error, data } = useQuery(GET_TMDB_CREDITS, {
     variables: { tmdbId: parseInt(movie.tmdbId) }
   })
@@ -16,52 +15,66 @@ const MovieModal = ({ movie, setShowModal }) => {
     console.error(error)
     return <p>Error :(</p>
   }
-  let filteredCrew = data.getMovieCredits.crew.filter((crewObject) => {
-    return ['Director', 'Screenplay', 'Producer', 'Novel'].includes(crewObject.job)
-  })
- 
-  filteredCrew = filteredCrew.filter((crewMember,index,self)=>self.findIndex(t=>(t.job === crewMember.job && t.name===crewMember.name))===index)
-  console.log(filteredCrew)
+  const filteredCrew = [...new Set(data.getMovieCredits.crew.filter((crewObject) => {
+    return ['Director', 'Screenplay', 'Producer', 'Novel', 'Makeup Artist', 'Music'].includes(crewObject.job)
+  }))]
 
   const handleClose = () => {
     setShow(false)
     setShowModal(false)
   }
+
+  const backdrop = `url(${movie.tmdbBackdropUrl})`
+  const background = {
+    backgroundImage: backdrop,
+    backgroundSize: 'cover',
+    backgoundPosition: 'center',
+    borderRadius: '0.3em'
+  }
+  const panelBackground = {
+    background: 'rgba(0,0,0,0.5)',
+    padding: '8px',
+    borderRadius: '0.25em'
+  }
   
   return (
-    <Modal show={show} onHide={handleClose} size="lg">
-      <Modal.Header>
-        <Modal.Title>{movie.title}</Modal.Title>
-        <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="row">
-          <div className="col-md-6">
-            <img 
-              className="mw-100 border rounded" 
-              alt="poster" 
-              src={`${TMDB_POSTER}${movie.tmdbPosterUrl}`}
-            />
+    <Modal show={show} onHide={handleClose} size="lg" className="shadow-lg">
+      <div style={background}>
+        <Modal.Header style={panelBackground}>
+          <Modal.Title>{movie.title}</Modal.Title>
+          <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-md-6">
+              <img 
+                className="mw-100 border rounded" 
+                alt="poster" 
+                src={`${TMDB_POSTER}${movie.tmdbPosterUrl}`}
+              />
+            </div>
+            <div className="col-md-6 text-white">
+            <div style={panelBackground} className="mb-3">
+              <p className="mb-0">Released: {movie.year}</p>
+              {filteredCrew.map((crewMember, index) => {
+                return <p key={index} className="mb-0">{crewMember.job}: {crewMember.name}</p>
+              })}
+            </div>
+     
+            <p style={panelBackground}>
+              {
+                movie.tmdbOverview.length < 1000
+                ? movie.tmdbOverview
+                : `${movie.tmdbOverview.substring(0, 999)}...`
+              }
+            </p>
+            </div>
           </div>
-          <div className="col-md-6">
-          <p className="mb-0">Released: {movie.year}</p>
-          {filteredCrew.map((crewMember, index) => {
-            return <p key={index} className="mb-0">{crewMember.job}: {crewMember.name}</p>
-          })}
-          <hr />
-          <p>
-            {
-              movie.tmdbOverview.length < 1000
-              ? movie.tmdbOverview
-              : `${movie.tmdbOverview.substring(0, 999)}...`
-            }
-          </p>
-          </div>
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <DeleteMovieButton movie={movie} handleClose={handleClose} />
-      </Modal.Footer>
+        </Modal.Body>
+        <Modal.Footer>
+          <DeleteMovieButton movie={movie} handleClose={handleClose} />
+        </Modal.Footer>
+      </div>
     </Modal>
   )
 }

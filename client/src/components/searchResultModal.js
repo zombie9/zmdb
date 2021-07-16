@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { Modal, Spinner } from 'react-bootstrap'
-import { TMDB_POSTER } from '../constant'
+import { TMDB_POSTER, TMDB_BACKDROP } from '../constant'
 import { GET_TMDB_CREDITS} from '../queries'
 import AddMovieButton from './addMovieButton'
 
@@ -24,45 +24,65 @@ const SearchResultModal = ({ movie, setShowModal }) => {
     year: parseInt(movie.release_date.substring(0, 4)),
     tmdbId: movie.id,
     tmdbOverview: movie.overview,
-    tmdbPosterUrl: `${TMDB_POSTER}${movie.poster_path}`
+    tmdbPosterUrl: `${TMDB_POSTER}${movie.poster_path}`,
+    tmdbBackdropUrl: `${TMDB_BACKDROP}${movie.backdrop_path}`
   }
 
   const handleClose = () => {
     setShow(false)
     setShowModal(false)
   }
+
+  const backdrop = `url(${newMovie.tmdbBackdropUrl})`
+  const background = movie.backdrop_path 
+    ? {
+      backgroundImage: backdrop,
+      backgroundSize: 'cover',
+      backgoundPosition: 'center',
+      borderRadius: '0.3em'
+    } : {}
+  const panelBackground = {
+    background: 'rgba(0,0,0,0.5)',
+    padding: '8px',
+    borderRadius: '0.25em'
+  }
   
   return (
     <Modal show={show} onHide={handleClose} size="lg">
-      <Modal.Header>
-        <Modal.Title>{newMovie.title}</Modal.Title>
-        <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="row">
-          <div className="col-md-6">
-            <img 
-              className="mw-100 border rounded" 
-              alt="poster" 
-              src={`${TMDB_POSTER}${newMovie.tmdbPosterUrl}`}
-            />
-          </div>
-          <div className="col-md-6">
-          <p className="mb-0">{newMovie.year}</p>
-            <p><em>{director}</em></p>
-            <p>
+      <div style={background}>
+        <Modal.Header style={panelBackground}>
+          <Modal.Title>{newMovie.title}</Modal.Title>
+          <button type="button" className="btn-close" onClick={handleClose} aria-label="Close"></button>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-md-6">
+              <img 
+                className="mw-100 border rounded" 
+                alt="poster" 
+                src={`${TMDB_POSTER}${newMovie.tmdbPosterUrl}`}
+              />
+            </div>
+            <div className="col-md-6 text-white">
+              <div style={panelBackground}>
+                <p className="mb-0">{newMovie.year}</p>
+                <p><em>{director}</em></p>
+              </div>
+            
+            <p style={panelBackground}>
               {
                 movie.overview.length < 1000
                 ? movie.overview
                 : `${movie.tmdbOverview.substring(0, 999)}...`
               }
             </p>
+            </div>
           </div>
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <AddMovieButton movie={newMovie} handleClose={handleClose} />
-      </Modal.Footer>
+        </Modal.Body>
+        <Modal.Footer>
+          <AddMovieButton movie={newMovie} handleClose={handleClose} />
+        </Modal.Footer>
+      </div>
     </Modal>
   )
 }

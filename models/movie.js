@@ -26,6 +26,10 @@ const movieSchema = new Schema({
   tmdbPosterUrl: {
     type: String,
     required: true
+  },
+  tmdbBackdropUrl: {
+    type: String,
+    required: false
   }
 })
 

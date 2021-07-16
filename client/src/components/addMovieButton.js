@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 import { MOVIES_QUERY, ADD_MOVIE } from '../queries'
 
 const AddMovieButton = ({ movie, handleClose }) => {
+  console.log(movie)
   const [addMovie] = useMutation(
     ADD_MOVIE,
     {
@@ -32,7 +33,8 @@ const AddMovieButton = ({ movie, handleClose }) => {
       year: movie.year,
       tmdbId: movie.tmdbId,
       tmdbOverview: movie.tmdbOverview,
-      tmdbPosterUrl: movie.tmdbPosterUrl
+      tmdbPosterUrl: movie.tmdbPosterUrl,
+      tmdbBackdropUrl: movie.tmdbBackdropUrl
     }})
     handleClose()
   }
