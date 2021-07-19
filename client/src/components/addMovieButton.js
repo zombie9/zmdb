@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap'
 import { MOVIES_QUERY, ADD_MOVIE } from '../queries'
 
 const AddMovieButton = ({ movie, handleClose }) => {
-  console.log(movie)
   const [addMovie] = useMutation(
     ADD_MOVIE,
     {

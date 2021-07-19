@@ -9,11 +9,9 @@ const DeleteMovieButton = ({ movie, handleClose }) => {
     {
       update(cache) {
         const deletedMovieId = movie.id
-        console.log('deletedMovieId', deletedMovieId)
         const existingMovies = cache.readQuery({
           query: MOVIES_QUERY
         })
-        console.log('existingMovies', existingMovies)
         const updatedMovies = existingMovies.movies.filter(movie => (movie.id !== deletedMovieId))
         cache.writeQuery({
           query: MOVIES_QUERY,
