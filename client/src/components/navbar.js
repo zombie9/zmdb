@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import SearchMovies from './searchMovies'
 import FilterMovies from './filterMovies'
 
@@ -24,17 +25,37 @@ function Navbar() {
         <h2 className="text-warning">ZMDB</h2>
         <div className="d-flex flex-row">
           { addActive 
-            ? <h3><i style={pointer} className="text-warning bi-x-circle me-4" onClick={handleAddClick}></i></h3>
-            : <h3 className={filterActive ? "text-muted pe-none" : "text-warning"}><i style={pointer} className="bi-plus-circle me-4" onClick={event => handleAddClick(event)}></i></h3>
+            ? <h3><i style={pointer} className="text-warning bi-x-circle" onClick={handleAddClick}></i></h3>
+            : <OverlayTrigger
+                placement="bottom"
+                overlay={
+                  <Tooltip>
+                    Add Movies
+                  </Tooltip>
+                }
+              >
+                <h3 className={filterActive ? "text-muted pe-none" : "text-warning"}><i style={pointer} className="bi-plus-circle" onClick={event => handleAddClick(event)}></i></h3>
+              </OverlayTrigger>
           }
+          <div className="me-4"></div>
           { filterActive
             ? <h3><i style={pointer} className="text-warning bi-x-circle" onClick={handleFilterClick}></i></h3>
-            : <h3 className={addActive ? "text-muted pe-none" : "text-warning"}><i style={pointer} onClick={event => handleFilterClick(event)} className="bi-filter-circle"></i></h3>
+            : <OverlayTrigger
+                placement="bottom"
+                overlay={
+                  <Tooltip>
+                    Filter Movies
+                  </Tooltip>
+                }
+              >
+                <h3 className={addActive ? "text-muted pe-none" : "text-warning"}><i style={pointer} onClick={event => handleFilterClick(event)} className="bi-filter-circle"></i></h3>
+              </OverlayTrigger>
           }
 
         </div>
         
       </div>
+      <hr className="mt-0" />
       { addActive && <SearchMovies /> }
       { filterActive && <FilterMovies />}
     </>

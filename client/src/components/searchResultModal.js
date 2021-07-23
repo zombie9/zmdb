@@ -24,7 +24,7 @@ const SearchResultModal = ({ movie, setShowModal }) => {
     year: parseInt(movie.release_date.substring(0, 4)),
     tmdbId: movie.id,
     tmdbOverview: movie.overview,
-    tmdbPosterUrl: `${TMDB_POSTER}${movie.poster_path}`,
+    tmdbPosterUrl: movie.poster_path ? `${TMDB_POSTER}${movie.poster_path}` : null,
     tmdbBackdropUrl: `${TMDB_BACKDROP}${movie.backdrop_path}`
   }
 
@@ -57,11 +57,15 @@ const SearchResultModal = ({ movie, setShowModal }) => {
         <Modal.Body>
           <div className="row">
             <div className="col-md-6">
-              <img 
+              { newMovie.tmdbPosterUrl ? <img 
                 className="mw-100 border rounded" 
                 alt="poster" 
                 src={`${TMDB_POSTER}${newMovie.tmdbPosterUrl}`}
               />
+              : <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+                No artwork found.
+              </div>
+              }
             </div>
             <div className="col-md-6 text-white">
               <div style={panelBackground}>

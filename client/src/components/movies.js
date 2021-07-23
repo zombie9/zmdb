@@ -6,6 +6,7 @@ import { Spinner } from 'react-bootstrap'
 import { filterList } from '../reactive/variables'
 import { useReactiveVar } from '@apollo/client'
 import { RESULTS_PER_PAGE } from '../constant'
+import Pagination from './pagination'
 
 const Movies = () => {
   const currentFilters = useReactiveVar(filterList)
@@ -31,10 +32,6 @@ const Movies = () => {
     }
   })
 
-  const pointer = {
-    cursor: "pointer"
-  }
-
   const totalResults = filteredData.length
   const maxPage = Math.ceil(totalResults / RESULTS_PER_PAGE)
   const endResult = RESULTS_PER_PAGE * currentPage
@@ -55,14 +52,12 @@ const Movies = () => {
           <Movie key={movie.id} movie={movie} />
         ))}
       </div>
-      <div className="d-flex flew-row justify-content-between mt-3">
-        <h3 className={currentPage <= 1 ? "text-muted pe-none" : "text-warning"}>
-          <i style={pointer} className="bi-arrow-left-circle" onClick={decrementPage}></i>
-        </h3>
-        <h3 className={currentPage >= maxPage ? "text-muted pe-none" : "text-warning"}>
-          <i style={pointer} className="bi-arrow-right-circle" onClick={incrementPage}></i>
-        </h3>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        maxPage={maxPage}
+        decrementPage={decrementPage}
+        incrementPage={incrementPage}
+      />
     </>
   )
 }

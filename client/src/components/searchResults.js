@@ -2,6 +2,8 @@ import React, { useState, useEffect} from 'react'
 import { useQuery } from '@apollo/client'
 import SearchResult from './searchResult'
 import { SEARCH_TMDB } from '../queries'
+import { Spinner } from 'react-bootstrap'
+import Pagination from './pagination'
 
 function SearchResults(props) {
   const { query } = props
@@ -15,29 +17,32 @@ function SearchResults(props) {
     variables: { query: query, page: currentPage }
   })
   
-  if (loading) return <p>Loading...</p>
+  if (loading) return <div className="mt-5 w-100 d-flex justify-content-center"><Spinner animation="border" variant="warning" /></div>
   if (error) {
     console.error(error)
     return <p>Error :(</p>
   }
-
-  const handleNextPage = () => {
-    currentPage < data.searchTmdb.total_pages
-      && setCurrentPage(currentPage + 1)
+  
+  const maxPage = data.searchTmdb.total_pages
+  const incrementPage = () => {
+    currentPage < maxPage && setCurrentPage(currentPage + 1)
   }
+  const decrementPage = () => {
+    currentPage > 1 && setCurrentPage(currentPage - 1)
+  }
+  
   return (
     <>
       <div className="mt-4 row gx-2 px-2">
         {data.searchTmdb.results.length && data.searchTmdb.results.map((movie) => (
             <SearchResult key={movie.id} movie={movie}/>
         ))}
-        {currentPage < data.searchTmdb.total_pages &&
-          <div className="col-lg-1 col-md-2 col-sm-3 col-4 mb-2 d-flex align-items-center justify-content-center">
-            <h3>
-              <i className="text-warning bi-plus-circle" onClick={handleNextPage}></i>
-            </h3>
-          </div>
-        }
+        <Pagination
+          currentPage={currentPage}
+          maxPage={maxPage}
+          decrementPage={decrementPage}
+          incrementPage={incrementPage}
+        />
       </div>
     </>
   )
