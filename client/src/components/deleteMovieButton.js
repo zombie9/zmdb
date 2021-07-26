@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMutation } from '@apollo/client'
 import { Button } from 'react-bootstrap'
-import { MOVIES_QUERY, DELETE_MOVIE } from '../queries'
+import { DELETE_MOVIE } from '../queries'
 
 const DeleteMovieButton = ({ movie }) => {
   const [deleteMovie] = useMutation(
@@ -12,7 +12,7 @@ const DeleteMovieButton = ({ movie }) => {
         cache.modify({
           fields: {
             movies(list, { readField }) {
-              return list.filter((n) => readField('id', n) !== deletedMovieId)
+              return list.filter((movie) => readField('id', movie) !== deletedMovieId)
             }
           }
         })
