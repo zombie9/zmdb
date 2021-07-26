@@ -2,6 +2,7 @@ import React from 'react'
 import { useMutation } from '@apollo/client'
 import { Button } from 'react-bootstrap'
 import { MOVIES_QUERY, ADD_MOVIE } from '../queries'
+import { zombieCheck } from '../helper/zombieCheck'
 
 const AddMovieButton = ({ movie, handleClose }) => {
   const [addMovie] = useMutation(
@@ -25,6 +26,8 @@ const AddMovieButton = ({ movie, handleClose }) => {
     }
   )
 
+  const isZombieMovie = zombieCheck(movie)
+
   const handleAddMovie = async() => {
     await addMovie({ variables: {
       title: movie.title,
@@ -39,10 +42,14 @@ const AddMovieButton = ({ movie, handleClose }) => {
   }
 
   return (
-    <div>
-      <Button variant="warning" onClick={handleAddMovie}>
-          Save to ZMDB
-      </Button>
+    <div className="w-100 d-flex justify-content-between">
+      {!isZombieMovie
+        ? <Button className="pe-none me-2" variant="danger">
+            Are you sure? <em><strong>{movie.title}</strong></em> doesn't sound like a zombie movie!
+          </Button>
+        : <div></div>
+      }
+      <Button variant="warning" onClick={handleAddMovie}>Add to ZMDB</Button>
     </div>
   )
 }

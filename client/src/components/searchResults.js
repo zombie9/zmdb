@@ -22,6 +22,10 @@ function SearchResults(props) {
     console.error(error)
     return <p>Error :(</p>
   }
+ 
+  if (data.searchTmdb.results.length < 1) {
+    return <div className="mt-5 d-flex justify-content-center">No results for {query}</div>
+  }
   
   const maxPage = data.searchTmdb.total_pages
   const incrementPage = () => {
