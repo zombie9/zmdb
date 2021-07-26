@@ -1,20 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import SearchResults from './searchResults'
 
 function SearchMovies() {
-  const [inputValue, setInputValue] = useState('')
+  const searchRef = useRef(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchSubmitted, setSearchSubmitted] = useState(false)
   
-  const handleOnChange = event => {
-    setInputValue(event.target.value)
-  }
-  
   const handleSearch = () => {
-    if (inputValue.length) {
-      setSearchQuery(inputValue)
+    if (searchRef.current.value.length) {
+      setSearchQuery(searchRef.current.value)
       setSearchSubmitted(true)
-      setInputValue('')
+      searchRef.current.value = ''
     }
   }
 
@@ -26,10 +22,8 @@ function SearchMovies() {
             <input
               className="d-inline form-control w-lg-50"
               type="text"
-              id="search-input"
-              onChange={event => handleOnChange(event)}
+              ref={searchRef}
               placeholder="Search..."
-              value={inputValue}
             />
             <button className="d-inline btn btn-warning ms-2" onClick={handleSearch}>Search</button>
           </div>

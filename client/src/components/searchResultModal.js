@@ -21,7 +21,7 @@ const SearchResultModal = ({ movie, setShowModal }) => {
   const newMovie = {
     title: movie.title,
     director: director,
-    year: parseInt(movie.release_date.substring(0, 4)),
+    year: parseInt(movie.release_date?.substring(0, 4)) || 0,
     tmdbId: movie.id,
     tmdbOverview: movie.overview,
     tmdbPosterUrl: movie.poster_path ? `${TMDB_POSTER}${movie.poster_path}` : null,
@@ -69,7 +69,7 @@ const SearchResultModal = ({ movie, setShowModal }) => {
             </div>
             <div className="col-md-6 text-white">
               <div style={panelBackground}>
-                <p className="mb-0">{newMovie.year}</p>
+                <p className="mb-0">{newMovie.year && newMovie.year}</p>
                 <p><em>{director}</em></p>
               </div>
             

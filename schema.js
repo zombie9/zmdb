@@ -85,7 +85,7 @@ const RootQuery = new GraphQLObjectType({
         page: { type: GraphQLInt }
       },
       resolve(parent, args) {
-        const url=`${TMDB_SEARCH}?api_key=${process.env.TMDB_API_KEY}&query=${args.query}&page=${args.page || 1}`
+        const url=`${TMDB_SEARCH}?api_key=${process.env.TMDB_API_KEY}&query=${args.query}&page=${args.page || 1}&include_adult=false`
         return axios.get(url)
         .then(res => res.data)
       }
@@ -133,7 +133,7 @@ const mutation = new GraphQLObjectType({
       resolve (parent, args) {
         Movie.findByIdAndDelete(args.id, (err) => {
           if(err) console.log(err)
-        });
+        })
       }
     }
   }
