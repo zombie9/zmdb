@@ -34,10 +34,10 @@ function Navbar() {
                   </Tooltip>
                 }
               >
-                <h3 className={filterActive ? "text-muted pe-none" : "text-warning"}><i style={pointer} className="bi-plus-circle" onClick={event => handleAddClick(event)}></i></h3>
+                <h3 className={filterActive ? "text-muted pe-none" : "text-warning"}><button className="bi-plus-circle" onClick={event => handleAddClick(event)}></button></h3>
               </OverlayTrigger>
           }
-          <div className="me-4"></div>
+          {/* <div className="me-4"></div> */}
           { filterActive
             ? <h3><i style={pointer} className="text-warning bi-x-circle" onClick={handleFilterClick}></i></h3>
             : <OverlayTrigger
@@ -48,7 +48,7 @@ function Navbar() {
                   </Tooltip>
                 }
               >
-                <h3 className={addActive ? "text-muted pe-none" : "text-warning"}><i style={pointer} onClick={event => handleFilterClick(event)} className="bi-filter-circle"></i></h3>
+                <h3 className={addActive ? "text-muted pe-none" : "text-warning"}><button onClick={event => handleFilterClick(event)} className="bi-filter-circle"></button></h3>
               </OverlayTrigger>
           }
 

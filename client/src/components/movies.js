@@ -58,6 +58,7 @@ const Movies = () => {
         decrementPage={decrementPage}
         incrementPage={incrementPage}
       />
+      <hr className="mt-1" />
     </>
   )
 }
