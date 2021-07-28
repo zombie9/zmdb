@@ -21,11 +21,11 @@ function Navbar() {
 
   return (
     <>
-      <div style={{background: '#060606'}}className="d-flex flex-row align-items-center justify-content-between mt-2 0 sticky-top">
+      <div style={{background: '#060606'}}className="d-flex flex-row align-items-center justify-content-between mt-3 0 sticky-top">
         <h2 className="text-warning">ZMDB</h2>
         <div className="d-flex flex-row">
           { addActive 
-            ? <h3><i style={pointer} className="text-warning bi-x-circle" onClick={handleAddClick}></i></h3>
+            ? <h3><button style={pointer} className="text-warning bi-x-circle" onClick={handleAddClick}></button></h3>
             : <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -39,7 +39,7 @@ function Navbar() {
           }
           {/* <div className="me-4"></div> */}
           { filterActive
-            ? <h3><i style={pointer} className="text-warning bi-x-circle" onClick={handleFilterClick}></i></h3>
+            ? <h3><button style={pointer} className="text-warning bi-x-circle" onClick={handleFilterClick}></button></h3>
             : <OverlayTrigger
                 placement="bottom"
                 overlay={
@@ -51,7 +51,7 @@ function Navbar() {
                 <h3 className={addActive ? "text-muted pe-none" : "text-warning"}><button onClick={event => handleFilterClick(event)} className="bi-filter-circle"></button></h3>
               </OverlayTrigger>
           }
-
+          <h3 className="text-warning"><button className="bi-person-circle"></button></h3>
         </div>
         
       </div>
