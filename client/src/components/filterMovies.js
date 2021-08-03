@@ -30,7 +30,7 @@ const FilterMovies = () => {
       <div className="card mb-4">
         <div className="card-body">
           <div className="row gy-2 justify-content-center">
-            <div className="col-md-4">
+            <div className="col-md-5 col-lg-4">
               <input
                 className="d-inline form-control w-lg-25"
                 type="text"
@@ -39,7 +39,7 @@ const FilterMovies = () => {
                 placeholder="Filter Title..."            
               />
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4 col-lg-3">
               <input
                 className="d-inline form-control w-lg-25"
                 type="text"
@@ -47,7 +47,7 @@ const FilterMovies = () => {
                 placeholder="Filter Director..."             
               />
             </div>
-            <div className="col-md-2">
+            <div className="col-md-3 col-lg-2">
               <input
                 className="d-inline form-control"
                 type="text"
@@ -56,8 +56,8 @@ const FilterMovies = () => {
               />
             </div>
             <div className="col-lg-3 d-flex justify-content-end">
-              <button onClick={applyfilters} className="d-inline btn btn-warning text-nowrap me-2">Apply</button>
-              <button onClick={clearfilters} className="d-inline btn btn-warning text-nowrap">Clear</button>            
+              <button onClick={applyfilters} className="flex-lg-grow-1 d-inline btn btn-warning text-nowrap me-2">Apply</button>
+              <button onClick={clearfilters} className="flex-lg-grow-1 d-inline btn btn-warning text-nowrap">Clear</button>            
             </div>
           </div>   
         </div>
