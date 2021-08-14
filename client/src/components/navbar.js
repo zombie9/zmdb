@@ -2,10 +2,12 @@ import React, {useState} from 'react'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import SearchMovies from './searchMovies'
 import FilterMovies from './filterMovies'
+import AuthModal from './authModal'
 
 function Navbar() {
   const [addActive, setAddActive] = useState(false)
   const [filterActive, setFilterActive] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   
   const handleAddClick = () => {
     if (filterActive) return
@@ -14,6 +16,11 @@ function Navbar() {
   const handleFilterClick = () => {
     if (addActive) return
     setFilterActive(!filterActive)
+  }
+  const handleAuthClick = () => {
+    console.log('boom')
+    setShowModal(!showModal)
+    console.log(showModal)
   }
   const pointer = {
     cursor: "pointer"
@@ -34,7 +41,9 @@ function Navbar() {
                   </Tooltip>
                 }
               >
-                <h3 className={filterActive ? "text-muted pe-none" : "text-warning"}><button className="bi-plus-circle" onClick={event => handleAddClick(event)}></button></h3>
+                <h3 className={filterActive ? "text-muted pe-none" : "text-warning"}>
+                  <button className="bi-plus-circle" onClick={event => handleAddClick(event)}></button>
+                </h3>
               </OverlayTrigger>
           }
           {/* <div className="me-4"></div> */}
@@ -51,13 +60,14 @@ function Navbar() {
                 <h3 className={addActive ? "text-muted pe-none" : "text-warning"}><button onClick={event => handleFilterClick(event)} className="bi-filter-circle"></button></h3>
               </OverlayTrigger>
           }
-          <h3 className="text-warning"><button className="bi-person-circle"></button></h3>
+          <h3 className="text-warning"><button className="bi-person-circle" onClick={handleAuthClick}></button></h3>
         </div>
         
       </div>
       <hr className="mt-0" />
       { addActive && <SearchMovies /> }
       { filterActive && <FilterMovies />}
+      { showModal && <AuthModal setShowModal={setShowModal} /> }
     </>
   )
 }
