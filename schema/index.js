@@ -1,7 +1,7 @@
 require('dotenv').config()
 const axios = require('axios')
-const { BASE_URL, TMDB_URL, TMDB_SEARCH } = require('./constant')
-const Movie = require('./models/movie')
+const { BASE_URL, TMDB_URL, TMDB_SEARCH } = require('../constants')
+const Movie = require('../models/movie')
 
 const {
   GraphQLObjectType,
